@@ -1,5 +1,4 @@
 module.exports = {
-  root: true, // ESLint понимает, что это корневой конфиг
   env: {
     browser: true,
     es2021: true,
