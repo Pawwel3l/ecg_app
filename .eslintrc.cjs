@@ -1,36 +1,27 @@
-module.exports = {
-  env: {
-    browser: true,
-    es2021: true,
-    node: true,
-  },
-  parser: '@babel/eslint-parser',
-  parserOptions: {
-    requireConfigFile: false,
-    babelOptions: {
-      presets: ['module:metro-react-native-babel-preset'],
+const js = require('@eslint/js');
+const typescriptEslint = require('@typescript-eslint/eslint-plugin');
+const typescriptParser = require('@typescript-eslint/parser');
+const globals = require('globals');
+
+module.exports = [
+  {
+    files: ['**/*.{js,jsx,ts,tsx}'],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      parser: typescriptParser,
+      globals: {
+        ...globals.browser,
+        ...globals.es2021,
+        ...globals.node,
+      },
     },
-    ecmaVersion: 2021,
-    sourceType: 'module',
-    ecmaFeatures: {
-      jsx: true,
+    plugins: {
+      '@typescript-eslint': typescriptEslint,
     },
-  },
-  extends: [
-    'eslint:recommended',
-    'plugin:react/recommended',
-    'plugin:react-native/all',
-    'prettier',
-  ],
-  plugins: ['react', 'react-native'],
-  rules: {
-    'no-unused-vars': 'warn',
-    'react/react-in-jsx-scope': 'off',
-    'react/prop-types': 'off',
-  },
-  settings: {
-    react: {
-      version: 'detect',
+    rules: {
+      ...js.configs.recommended.rules,
+      ...typescriptEslint.configs.recommended.rules,
     },
   },
-};
+];
