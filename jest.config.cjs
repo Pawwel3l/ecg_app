@@ -18,4 +18,11 @@ module.exports = {
   moduleNameMapper: {
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
   },
+  env: {
+    browser: true,
+    es2021: true,
+    jest: true,
+  },
+  plugins: ['jest'],
+  extends: ['plugin:jest/recommended'],
 };
