@@ -1,14 +1,15 @@
 module.exports = {
+  root: true, // ESLint понимает, что это корневой конфиг
   env: {
     browser: true,
     es2021: true,
     node: true,
   },
-  parser: '@babel/eslint-parser', // нужен для JSX
+  parser: '@babel/eslint-parser',
   parserOptions: {
-    requireConfigFile: false, // чтобы не требовался .babelrc
+    requireConfigFile: false,
     babelOptions: {
-      presets: ['module:metro-react-native-babel-preset'], // React Native preset
+      presets: ['module:metro-react-native-babel-preset'],
     },
     ecmaVersion: 2021,
     sourceType: 'module',
