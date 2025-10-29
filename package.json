@@ -20,11 +20,14 @@
   "private": true,
   "devDependencies": {
     "@babel/eslint-parser": "^7.28.5",
+    "@typescript-eslint/eslint-plugin": "^8.46.2",
+    "@typescript-eslint/parser": "^8.46.2",
     "eslint": "^9.38.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-native": "^5.0.0",
     "expo-build-properties": "^1.0.9",
+    "globals": "^16.4.0",
     "metro-react-native-babel-preset": "^0.77.0"
   }
 }
