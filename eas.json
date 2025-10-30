@@ -1,0 +1,12 @@
+{
+  "build": {
+    "production": {
+      "releaseChannel": "production",
+      "distribution": "store"
+    },
+    "development": {
+      "releaseChannel": "development",
+      "distribution": "internal"
+    }
+  }
+}
