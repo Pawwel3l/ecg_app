@@ -5,9 +5,9 @@ import {
   requestPermission,
   readRecords,
 } from 'react-native-health-connect';
-import { requestHealthPermissions } from './src/utils/requestPermission.js';
 
 export default function App() {
+  // Состояние для хранения прочитанных данных
   const [records, setRecords] = useState([]);
   const [status, setStatus] = useState('Нажмите кнопку для чтения данных');
 
