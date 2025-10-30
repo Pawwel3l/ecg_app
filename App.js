@@ -1,32 +1,35 @@
-import React, { useEffect } from 'react';
-import { Button, View, Text } from 'react-native';
+import React, { useState } from 'react';
+import { Button, View, Text, ScrollView } from 'react-native';
 import {
   initialize,
   requestPermission,
   readRecords,
 } from 'react-native-health-connect';
+import { requestHealthPermissions } from './src/utils/requestPermission.js';
 
 export default function App() {
+  const [records, setRecords] = useState([]);
+  const [status, setStatus] = useState('Нажмите кнопку для чтения данных');
+
   const readSampleData = async () => {
     try {
-      // 1️⃣ Инициализация Health Connect клиента
+      setStatus('Инициализация...');
       const isInitialized = await initialize();
       console.log('Health Connect initialized:', isInitialized);
 
-      // 2️⃣ Запрос разрешений
+      setStatus('Запрашиваем разрешения...');
       const grantedPermissions = await requestPermission([
         { accessType: 'read', recordType: 'ActiveCaloriesBurned' },
       ]);
 
       console.log('Granted permissions:', grantedPermissions);
 
-      // 3️⃣ Проверка разрешений
       if (!grantedPermissions.find(p => p.granted)) {
-        console.warn('Permission not granted for ActiveCaloriesBurned');
+        setStatus('❌ Разрешения не выданы');
         return;
       }
 
-      // 4️⃣ Чтение данных
+      setStatus('Читаем данные...');
       const result = await readRecords('ActiveCaloriesBurned', {
         timeRangeFilter: {
           operator: 'between',
@@ -36,15 +39,47 @@ export default function App() {
       });
 
       console.log('Records:', result.records);
+      setRecords(result.records || []);
+      setStatus(`✅ Найдено записей: ${result.records?.length || 0}`);
     } catch (error) {
       console.error('Error reading Health Connect data:', error);
+      setStatus('⚠️ Ошибка при чтении данных');
     }
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Health Connect Demo</Text>
-      <Button title="Read Calories Data" onPress={readSampleData} />
+    <View style={{ flex: 1, padding: 20, backgroundColor: '#fff' }}>
+      <Text style={{ fontSize: 20, textAlign: 'center', marginBottom: 10 }}>
+        Health Connect Demo
+      </Text>
+      <Button title="Прочитать данные о калориях" onPress={readSampleData} />
+      <Text style={{ marginVertical: 10, textAlign: 'center' }}>{status}</Text>
+
+      {/* Отображение данных */}
+      <ScrollView style={{ marginTop: 10 }}>
+        {records.length > 0 ? (
+          records.map((item, index) => (
+            <View
+              key={index}
+              style={{
+                marginBottom: 10,
+                padding: 10,
+                borderWidth: 1,
+                borderColor: '#ccc',
+                borderRadius: 8,
+              }}
+            >
+              <Text>Начало: {item.startTime}</Text>
+              <Text>Конец: {item.endTime}</Text>
+              <Text>Калории: {item.energy?.inKilocalories ?? 'нет данных'}</Text>
+            </View>
+          ))
+        ) : (
+          <Text style={{ textAlign: 'center', color: '#999' }}>
+            Нет данных для отображения
+          </Text>
+        )}
+      </ScrollView>
     </View>
   );
 }
