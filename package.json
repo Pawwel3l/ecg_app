@@ -9,11 +9,11 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "expo": "54.0.21",
     "expo-health-connect": "^0.1.1",
     "react": "19.1.0",
     "react-native": "0.81.5",
-    "react-native-health-connect": "^3.4.0",
-    "expo": "~54.0.20"
+    "react-native-health-connect": "^3.4.0"
   },
   "private": true,
   "devDependencies": {
