@@ -35,5 +35,8 @@
     "jest-environment-jsdom": "^30.2.0",
     "metro-react-native-babel-preset": "^0.77.0",
     "ts-jest": "^29.4.5"
-  }
+  },
+  "engines": {
+  "node": ">=18"
+}
 }
