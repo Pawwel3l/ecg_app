@@ -1,21 +1,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.anonymous.myapp">
 
-  <!-- ⚙️ Основные разрешения -->
+  <!-- ✅ Основные разрешения -->
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
   <uses-permission android:name="android.permission.VIBRATE" />
 
-  <!-- ⚙️ Разрешения для чтения данных из Health Connect -->
+  <!-- ✅ Health Connect чтение данных -->
   <uses-permission android:name="android.permission.health.READ_ACTIVE_CALORIES_BURNED" />
   <uses-permission android:name="android.permission.health.READ_HEART_RATE" />
   <uses-permission android:name="android.permission.health.READ_STEPS" />
   <uses-permission android:name="android.permission.health.READ_EXERCISE" />
   <uses-permission android:name="android.permission.health.READ_SLEEP" />
-
-  <!-- ⚠️ Старые разрешения хранения можно убрать -->
-  <!-- <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> -->
-  <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> -->
+  <uses-permission android:name="android.permission.health.READ_HEALTH_DATA_IN_BACKGROUND"/>
 
   <application
       android:name=".MainApplication"
@@ -27,10 +24,12 @@
       android:supportsRtl="true"
       android:enableOnBackInvokedCallback="false">
 
-    <!-- Expo Updates Meta -->
+    <!-- ✅ Expo Updates отключены -->
     <meta-data android:name="expo.modules.updates.ENABLED" android:value="false" />
-    <meta-data android:name="expo.modules.updates.EXPO_UPDATES_CHECK_ON_LAUNCH" android:value="ALWAYS" />
-    <meta-data android:name="expo.modules.updates.EXPO_UPDATES_LAUNCH_WAIT_MS" android:value="0" />
+    <meta-data android:name="expo.modules.updates.EXPO_UPDATES_CHECK_ON_LAUNCH"
+        android:value="ALWAYS" />
+    <meta-data android:name="expo.modules.updates.EXPO_UPDATES_LAUNCH_WAIT_MS"
+        android:value="0" />
 
     <!-- 🚀 Главная Activity -->
     <activity
@@ -46,13 +45,13 @@
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
 
-      <!-- Health Connect Intent -->
+      <!-- ✅ Обработка Health Connect rationale -->
       <intent-filter>
         <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE" />
       </intent-filter>
     </activity>
 
-    <!-- 🔐 Для Health Connect разрешений -->
+    <!-- ✅ Activity-alias → строго MainActivity (как требует Health Connect) -->
     <activity-alias
         android:name="ViewPermissionUsageActivity"
         android:exported="true"
