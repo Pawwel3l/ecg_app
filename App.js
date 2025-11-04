@@ -18,7 +18,6 @@ export default function App() {
       const permissionsToRequest = [
         { accessType: 'read', recordType: 'Steps' },
       ];
-
       await requestPermission(permissionsToRequest);
       console.log('📌 Requested permissions for Steps');
 
@@ -26,7 +25,6 @@ export default function App() {
       const granted = await getGrantedPermissions();
       console.log('✅ Granted permissions:', granted);
 
-      // 4️⃣ Проверяем разрешение на Steps
       const hasStepsPermission = granted.some(
         p => p.accessType === 'read' && p.recordType === 'Steps'
       );
@@ -36,12 +34,16 @@ export default function App() {
         return;
       }
 
-      // 5️⃣ Чтение данных шагов за последний месяц
+      // 4️⃣ Чтение шагов за последние 7 дней
+      const now = new Date();
+      const sevenDaysAgo = new Date();
+      sevenDaysAgo.setDate(now.getDate() - 7);
+
       const records = await readRecords('Steps', {
         timeRangeFilter: {
           operator: 'between',
-          startTime: '2025-10-01T00:00:00.000Z',
-          endTime: '2025-10-31T23:59:59.999Z',
+          startTime: sevenDaysAgo.toISOString(),
+          endTime: now.toISOString(),
         },
       });
 
