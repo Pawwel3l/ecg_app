@@ -1,50 +1,67 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Button, View, Text } from 'react-native';
 import {
   initialize,
   requestPermission,
+  getGrantedPermissions,
   readRecords,
 } from 'react-native-health-connect';
 
 export default function App() {
-  const readSampleData = async () => {
+  const readStepsData = async () => {
     try {
-      // 1️⃣ Инициализация Health Connect клиента
-      const isInitialized = await initialize();
-      console.log('Health Connect initialized:', isInitialized);
+      // 1️⃣ Инициализация Health Connect
+      const initialized = await initialize();
+      console.log('✅ Health Connect initialized:', initialized);
 
-      // 2️⃣ Запрос разрешений
-      const grantedPermissions = await requestPermission([
-        { accessType: 'read', recordType: 'ActiveCaloriesBurned' },
-      ]);
+      // 2️⃣ Запрос разрешений на шаги
+      const permissionsToRequest = [
+        { accessType: 'read', recordType: 'Steps' },
+      ];
+      await requestPermission(permissionsToRequest);
+      console.log('📌 Requested permissions for Steps');
 
-      console.log('Granted permissions:', grantedPermissions);
+      // 3️⃣ Получаем реально выданные разрешения
+      const granted = await getGrantedPermissions();
+      console.log('✅ Granted permissions:', granted);
 
-      // 3️⃣ Проверка разрешений
-      if (!grantedPermissions.find(p => p.granted)) {
-        console.warn('Permission not granted for ActiveCaloriesBurned');
+      const hasStepsPermission = granted.some(
+        p => p.accessType === 'read' && p.recordType === 'Steps'
+      );
+
+      if (!hasStepsPermission) {
+        console.warn('⚠️ Permission not granted for Steps');
         return;
       }
 
-      // 4️⃣ Чтение данных
-      const result = await readRecords('ActiveCaloriesBurned', {
+      // 4️⃣ Чтение шагов за последние 7 дней
+      const now = new Date();
+      const sevenDaysAgo = new Date();
+      sevenDaysAgo.setDate(now.getDate() - 7);
+
+      const records = await readRecords('Steps', {
         timeRangeFilter: {
           operator: 'between',
-          startTime: '2023-01-09T12:00:00.405Z',
-          endTime: '2023-01-09T23:53:15.405Z',
+          startTime: sevenDaysAgo.toISOString(),
+          endTime: now.toISOString(),
         },
       });
 
-      console.log('Records:', result.records);
+      console.log('🔥 Steps Records:', records.records);
+
+      if (records.records.length === 0) {
+        console.warn('⚠️ Нет данных о шагах за выбранный период');
+      }
+
     } catch (error) {
-      console.error('Error reading Health Connect data:', error);
+      console.error('❌ Error reading Steps data:', error);
     }
   };
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Health Connect Demo</Text>
-      <Button title="Read Calories Data" onPress={readSampleData} />
+      <Text>Health Connect Steps Demo</Text>
+      <Button title="Read Steps Data" onPress={readStepsData} />
     </View>
   );
 }

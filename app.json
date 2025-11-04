@@ -14,7 +14,13 @@
       ]
     ],
     "android": {
-      "package": "com.anonymous.myapp"
+      "package": "com.anonymous.myapp",
+      "permissions": [
+        "android.permission.HEALTH_READ_STEPS",
+        "android.permission.HEALTH_WRITE_STEPS",
+        "android.permission.HEALTH_READ_ACTIVE_CALORIES_BURNED",
+        "android.permission.health.READ_STEPS"
+      ]
     }
   }
 }
