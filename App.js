@@ -1,85 +1,67 @@
-import React, { useState } from 'react';
-import { Button, View, Text, ScrollView } from 'react-native';
+import React from 'react';
+import { Button, View, Text } from 'react-native';
 import {
   initialize,
   requestPermission,
+  getGrantedPermissions,
   readRecords,
 } from 'react-native-health-connect';
 
 export default function App() {
-  // Состояние для хранения прочитанных данных
-  const [records, setRecords] = useState([]);
-  const [status, setStatus] = useState('Нажмите кнопку для чтения данных');
-
-  const readSampleData = async () => {
+  const readStepsData = async () => {
     try {
-      setStatus('Инициализация...');
-      const isInitialized = await initialize();
-      console.log('Health Connect initialized:', isInitialized);
+      // 1️⃣ Инициализация Health Connect
+      const initialized = await initialize();
+      console.log('✅ Health Connect initialized:', initialized);
 
-      setStatus('Запрашиваем разрешения...');
-      const grantedPermissions = await requestPermission([
-        { accessType: 'read', recordType: 'ActiveCaloriesBurned' },
-      ]);
+      // 2️⃣ Запрос разрешений на шаги
+      const permissionsToRequest = [
+        { accessType: 'read', recordType: 'Steps' },
+      ];
+      await requestPermission(permissionsToRequest);
+      console.log('📌 Requested permissions for Steps');
 
-      console.log('Granted permissions:', grantedPermissions);
+      // 3️⃣ Получаем реально выданные разрешения
+      const granted = await getGrantedPermissions();
+      console.log('✅ Granted permissions:', granted);
 
-      if (!grantedPermissions.find(p => p.granted)) {
-        setStatus('❌ Разрешения не выданы');
+      const hasStepsPermission = granted.some(
+        p => p.accessType === 'read' && p.recordType === 'Steps'
+      );
+
+      if (!hasStepsPermission) {
+        console.warn('⚠️ Permission not granted for Steps');
         return;
       }
 
-      setStatus('Читаем данные...');
-      const result = await readRecords('ActiveCaloriesBurned', {
+      // 4️⃣ Чтение шагов за последние 7 дней
+      const now = new Date();
+      const sevenDaysAgo = new Date();
+      sevenDaysAgo.setDate(now.getDate() - 7);
+
+      const records = await readRecords('Steps', {
         timeRangeFilter: {
           operator: 'between',
-          startTime: '2023-01-09T12:00:00.405Z',
-          endTime: '2023-01-09T23:53:15.405Z',
+          startTime: sevenDaysAgo.toISOString(),
+          endTime: now.toISOString(),
         },
       });
 
-      console.log('Records:', result.records);
-      setRecords(result.records || []);
-      setStatus(`✅ Найдено записей: ${result.records?.length || 0}`);
+      console.log('🔥 Steps Records:', records.records);
+
+      if (records.records.length === 0) {
+        console.warn('⚠️ Нет данных о шагах за выбранный период');
+      }
+
     } catch (error) {
-      console.error('Error reading Health Connect data:', error);
-      setStatus('⚠️ Ошибка при чтении данных');
+      console.error('❌ Error reading Steps data:', error);
     }
   };
 
   return (
-    <View style={{ flex: 1, padding: 20, backgroundColor: '#fff' }}>
-      <Text style={{ fontSize: 20, textAlign: 'center', marginBottom: 10 }}>
-        Health Connect Demo
-      </Text>
-      <Button title="Прочитать данные о калориях" onPress={readSampleData} />
-      <Text style={{ marginVertical: 10, textAlign: 'center' }}>{status}</Text>
-
-      {/* Отображение данных */}
-      <ScrollView style={{ marginTop: 10 }}>
-        {records.length > 0 ? (
-          records.map((item, index) => (
-            <View
-              key={index}
-              style={{
-                marginBottom: 10,
-                padding: 10,
-                borderWidth: 1,
-                borderColor: '#ccc',
-                borderRadius: 8,
-              }}
-            >
-              <Text>Начало: {item.startTime}</Text>
-              <Text>Конец: {item.endTime}</Text>
-              <Text>Калории: {item.energy?.inKilocalories ?? 'нет данных'}</Text>
-            </View>
-          ))
-        ) : (
-          <Text style={{ textAlign: 'center', color: '#999' }}>
-            Нет данных для отображения
-          </Text>
-        )}
-      </ScrollView>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Health Connect Steps Demo</Text>
+      <Button title="Read Steps Data" onPress={readStepsData} />
     </View>
   );
 }
