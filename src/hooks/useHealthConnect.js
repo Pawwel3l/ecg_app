@@ -3,7 +3,7 @@ import { setupHealthConnect, readHeartRate, readEcg } from '../services/healthSe
 
 export const useHealthConnect = () => {
   const [heartRate, setHeartRate] = useState([]);
-  const [ecg, setEcg] = useState([]);
+  // const [ecg, setEcg] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -16,11 +16,11 @@ export const useHealthConnect = () => {
 
         const [hr, ecgData] = await Promise.all([
           readHeartRate(start, end),
-          readEcg(start, end),
+          // readEcg(start, end),
         ]);
 
         setHeartRate(hr);
-        setEcg(ecgData);
+        // setEcg(ecgData);
       } catch (err) {
         console.error('Health Connect error:', err);
         setError(err.message);
@@ -32,5 +32,5 @@ export const useHealthConnect = () => {
     fetchData();
   }, []);
 
-  return { heartRate, ecg, loading, error };
+  return { heartRate,  loading, error };
 };

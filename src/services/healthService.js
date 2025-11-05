@@ -5,7 +5,7 @@ export const setupHealthConnect = async () => {
   const permissions = [
     { accessType: 'read', recordType: 'Steps' },
     { accessType: 'read', recordType: 'HeartRate' },
-    { accessType: 'read', recordType: 'Electrocardiogram' },
+    // { accessType: 'read', recordType: 'Electrocardiogram' },
   ];
   await requestPermission(permissions);
 };
@@ -17,9 +17,9 @@ export const readHeartRate = async (start, end) => {
   return records;
 };
 
-export const readEcg = async (start, end) => {
-  const { records } = await readRecords('Electrocardiogram', {
-    timeRangeFilter: { operator: 'between', startTime: start, endTime: end },
-  });
-  return records;
-};
+// export const readEcg = async (start, end) => {
+//   const { records } = await readRecords('Electrocardiogram', {
+//     timeRangeFilter: { operator: 'between', startTime: start, endTime: end },
+//   });
+//   return records;
+// };

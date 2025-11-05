@@ -3,7 +3,7 @@ import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import { useHealthConnect } from '../hooks/useHealthConnect';
 
 export default function DashboardScreen() {
-  const { heartRate, ecg, loading, error } = useHealthConnect();
+  const { heartRate,  loading, error } = useHealthConnect();
 
   if (loading) return <ActivityIndicator size="large" style={styles.center} />;
   if (error) return <Text style={styles.error}>Ошибка: {error}</Text>;
@@ -15,7 +15,7 @@ export default function DashboardScreen() {
     <View style={styles.container}>
       <Text style={styles.title}>📊 Health Connect Dashboard</Text>
       <Text style={styles.text}>💓 Пульс: {latestHeartRate} bpm</Text>
-      <Text style={styles.text}>⚡ ЭКГ записей: {ecg.length}</Text>
+      {/* <Text style={styles.text}>⚡ ЭКГ записей: {ecg.length}</Text> */}
     </View>
   );
 }
