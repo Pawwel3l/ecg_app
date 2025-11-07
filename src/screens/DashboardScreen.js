@@ -18,7 +18,7 @@ export default function DashboardScreen() {
     <View style={styles.container}>
       <Text style={styles.title}>📊 Health Connect Dashboard</Text>
       <Text style={styles.text}>💓 Пульс: {latestHeartRate} bpm</Text>
-      <Text style={styles.text}>💉 Давление: {systolic}/{diastolic} мм рт.ст.</Text>
+  <Text style={styles.text}>💉 Давление: {systolic}/{diastolic} мм рт.ст.</Text>
       <Text style={styles.text}>🫁 Кислород: {latestOxygen}%</Text>
     </View>
   );
@@ -31,5 +31,3 @@ const styles = StyleSheet.create({
   center: { flex: 1, justifyContent: 'center' },
   error: { color: 'red', textAlign: 'center', marginTop: 20 },
 });
-
-console.log('🩸 Latest BP record:', JSON.stringify(latestBP, null, 2));
