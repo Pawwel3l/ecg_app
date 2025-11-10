@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, ActivityIndicator, StyleSheet, Button } from 'react-native';
 import { startAutoUpdater } from '../utils/Updater';
-import { setupHealthConnect } from '../services/healthService';
+// import { setupHealthConnect } from '../services/healthService';
 import { useHealthConnect } from '../hooks/useHealthConnect';
 
 export default function DashboardScreen() {
