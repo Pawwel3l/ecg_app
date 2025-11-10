@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, ActivityIndicator, StyleSheet, Button } from 'react-native';
-import { startAutoUpdater } from '../services/Updater';
+import { startAutoUpdater } from '../utils/Updater';
 import { setupHealthConnect } from '../services/healthService';
 import { useHealthConnect } from '../hooks/useHealthConnect';
 

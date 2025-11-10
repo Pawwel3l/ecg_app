@@ -31,9 +31,12 @@ export const startAutoUpdater = (onUpdate, interval = 60 * 60 * 1000) => {
     }
   };
 
-  autoFetchData(); // первое чтение
+  // первое чтение при запуске
+  autoFetchData();
 
-  intervalId = setInterval(fetchData, interval);
+  // 🔧 вот тут исправляем
+  intervalId = setInterval(autoFetchData, interval);
+
   console.log(`🔁 Автообновление запущено каждые ${interval / 1000 / 60} минут`);
 
   return () => {
