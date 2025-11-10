@@ -16,8 +16,6 @@ export const useHealthConnect = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await setupHealthConnect();
-
         const end = new Date().toISOString();
         const start = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
 

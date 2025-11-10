@@ -21,6 +21,11 @@
         "android.permission.HEALTH_READ_ACTIVE_CALORIES_BURNED",
         "android.permission.health.READ_STEPS"
       ]
+    },
+    "extra": {
+      "eas": {
+        "projectId": "9f0ec51c-abda-4c60-a4e9-c8e75339d80a"
+      }
     }
   }
 }

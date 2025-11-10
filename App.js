@@ -7,7 +7,7 @@ export default function App() {
   useEffect(() => {
     const initHealthConnect = async () => {
       try {
-        await initialize();
+        await setupHealthConnect();
         console.log('✅ Health Connect успешно инициализирован');
       } catch (error) {
         console.error('❌ Ошибка инициализации Health Connect:', error);
