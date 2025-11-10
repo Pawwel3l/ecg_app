@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { SafeAreaView, StatusBar, StyleSheet } from 'react-native';
 // import { initialize } from 'react-native-health-connect';
 import DashboardScreen from './src/screens/DashboardScreen';
-import { setupHealthConnect } from '../services/healthService';
+import { setupHealthConnect } from './src/services/healthService';
 
 export default function App() {
   useEffect(() => {
