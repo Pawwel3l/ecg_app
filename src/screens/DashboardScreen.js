@@ -20,8 +20,6 @@ export default function DashboardScreen() {
 
     const init = async () => {
       try {
-        await setupHealthConnect();
-
         stopUpdater = startAutoUpdater((newData) => {
           setData(newData);
           setLastUpdated(new Date());
