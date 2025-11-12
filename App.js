@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { SafeAreaView, StatusBar, StyleSheet, ActivityIndicator, View, Text } from 'react-native';
 import DashboardScreen from './src/screens/DashboardScreen';
 import { setupHealthConnect } from './src/services/healthService';
+import { requestBackgroundPermissions } from './src/hooks/useRequestPermissions'
 
 export default function App() {
   const [isInitialized, setIsInitialized] = useState(false); // флаг инициализации

@@ -1,7 +1,6 @@
 import { PermissionsAndroid, Platform } from 'react-native';
 
 export async function requestBackgroundPermissions() {
-  // iOS пока не поддерживает Health Connect
   if (Platform.OS !== 'android') return;
 
   try {
