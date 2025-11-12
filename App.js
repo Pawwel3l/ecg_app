@@ -8,11 +8,19 @@ export default function App() {
   const [initError, setInitError] = useState(null);
 
   useEffect(() => {
-    const initHealthConnect = async () => {
+   const initHealthConnect = async () => {
       try {
+        // 1️⃣ Сначала запрашиваем системные разрешения
+        const granted = await requestBackgroundPermissions();
+        if (!granted) {
+          console.warn('⚠️ Не все разрешения были выданы пользователем');
+        }
+
+        // 2️⃣ После этого инициализируем Health Connect
         await setupHealthConnect();
         console.log('✅ Health Connect успешно инициализирован');
-        setIsInitialized(true); // готово — можно рендерить Dashboard
+
+        setIsInitialized(true);
       } catch (error) {
         console.error('❌ Ошибка инициализации Health Connect:', error);
         setInitError(error);
