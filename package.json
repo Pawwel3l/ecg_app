@@ -21,7 +21,7 @@
   "private": true,
   "devDependencies": {
     "@babel/eslint-parser": "^7.28.5",
-    "@types/jest": "^29.5.14",
+    "@types/jest": "^30.0.0",
     "@typescript-eslint/eslint-plugin": "^8.46.2",
     "@typescript-eslint/parser": "^8.46.2",
     "eslint": "^9.38.0",
