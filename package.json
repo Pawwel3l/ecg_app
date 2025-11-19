@@ -22,6 +22,7 @@
   },
   "private": true,
   "devDependencies": {
+    "@react-native-community/cli": "latest",
     "@babel/eslint-parser": "^7.28.5",
     "@types/jest": "^29.5.14",
     "@typescript-eslint/eslint-plugin": "^8.46.2",
