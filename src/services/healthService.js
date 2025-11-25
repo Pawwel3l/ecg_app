@@ -2,23 +2,20 @@ import {
   initialize,
   requestPermission,
   readRecords,
-  HeartRateRecord,
-  OxygenSaturationRecord,
-  BloodPressureRecord
 } from 'react-native-health-connect';
 
 export const setupHealthConnect = async () => {
   await initialize();
   const permissions = [
-    { accessType: 'read', recordType: HeartRateRecord },
-    { accessType: 'read', recordType: OxygenSaturationRecord },
-    { accessType: 'read', recordType: BloodPressureRecord },
+    { accessType: 'read', recordType: 'HeartRateRecord' },
+    { accessType: 'read', recordType: 'OxygenSaturationRecord' },
+    { accessType: 'read', recordType: 'BloodPressureRecord' },
   ];
   await requestPermission(permissions);
 };
 
 export const readHeartRate = async (start, end) => {
-  const { records } = await readRecords(HeartRateRecord, {
+  const { records } = await readRecords('HeartRateRecord', {
     timeRangeFilter: { operator: 'between', startTime: start, endTime: end },
   });
   return records;
@@ -26,7 +23,7 @@ export const readHeartRate = async (start, end) => {
 
 // Давление
 export const readBloodPressure = async (start, end) => {
-  const result = await readRecords(BloodPressureRecord, {
+  const result = await readRecords('BloodPressureRecord', {
     timeRangeFilter: {
       operator: 'between',
       startTime: start,
@@ -43,7 +40,7 @@ export const readBloodPressure = async (start, end) => {
 
 // Уровень кислорода
 export const readOxygenSaturation = async (start, end) => {
-  const result = await readRecords(OxygenSaturationRecord, {
+  const result = await readRecords('OxygenSaturationRecord', {
     timeRangeFilter: {
       operator: 'between',
       startTime: start,

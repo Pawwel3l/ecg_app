@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, StatusBar, StyleSheet, ActivityIndicator, View, Text } from 'react-native';
+import { StatusBar, StyleSheet, ActivityIndicator, View, Text } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import DashboardScreen from './src/screens/DashboardScreen';
 import { setupHealthConnect } from './src/services/healthService';
 import { requestBackgroundPermissions } from './src/hooks/useRequestPermissions'
@@ -11,15 +12,15 @@ export default function App() {
   useEffect(() => {
    const initHealthConnect = async () => {
       try {
-        // 1️⃣ Сначала запрашиваем системные разрешения
-        const granted = await requestBackgroundPermissions();
-        if (!granted) {
-          console.warn('⚠️ Не все разрешения были выданы пользователем');
-        }
-
         // 2️⃣ После этого инициализируем Health Connect
         await setupHealthConnect();
         console.log('✅ Health Connect успешно инициализирован');
+
+        // // 1️⃣ Сначала запрашиваем системные разрешения
+        // const granted = await requestBackgroundPermissions();
+        // if (!granted) {
+        //   console.warn('⚠️ Не все разрешения были выданы пользователем');
+        // }
 
         setIsInitialized(true);
       } catch (error) {
