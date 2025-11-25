@@ -6,16 +6,26 @@ import {
 
 export const setupHealthConnect = async () => {
   await initialize();
+
+  // 🔴
+ БЫЛО: recordType: 'HeartRateRecord'
+  // 🟢
+ СТАЛО: recordType: 'HeartRate'
   const permissions = [
-    { accessType: 'read', recordType: 'HeartRateRecord' },
-    { accessType: 'read', recordType: 'OxygenSaturationRecord' },
-    { accessType: 'read', recordType: 'BloodPressureRecord' },
+    { accessType: 'read', recordType: 'HeartRate' },
+    { accessType: 'read', recordType: 'OxygenSaturation' },
+    { accessType: 'read', recordType: 'BloodPressure' },
   ];
-  await requestPermission(permissions);
+
+   await requestPermission(permissions);
 };
 
 export const readHeartRate = async (start, end) => {
-  const { records } = await readRecords('HeartRateRecord', {
+  // 🔴
+ БЫЛО: 'HeartRateRecord'
+  // 🟢
+ СТАЛО: 'HeartRate'
+  const { records } = await readRecords('HeartRate', {
     timeRangeFilter: { operator: 'between', startTime: start, endTime: end },
   });
   return records;
@@ -23,7 +33,11 @@ export const readHeartRate = async (start, end) => {
 
 // Давление
 export const readBloodPressure = async (start, end) => {
-  const result = await readRecords('BloodPressureRecord', {
+  // 🔴
+ БЫЛО: 'BloodPressureRecord'
+  // 🟢
+ СТАЛО: 'BloodPressure'
+  const result = await readRecords('BloodPressure', {
     timeRangeFilter: {
       operator: 'between',
       startTime: start,
@@ -40,7 +54,11 @@ export const readBloodPressure = async (start, end) => {
 
 // Уровень кислорода
 export const readOxygenSaturation = async (start, end) => {
-  const result = await readRecords('OxygenSaturationRecord', {
+  // 🔴
+ БЫЛО: 'OxygenSaturationRecord'
+  // 🟢
+ СТАЛО: 'OxygenSaturation'
+  const result = await readRecords('OxygenSaturation', {
     timeRangeFilter: {
       operator: 'between',
       startTime: start,
@@ -53,11 +71,3 @@ export const readOxygenSaturation = async (start, end) => {
     time: r.startTime,
   }));
 };
-
-
-// export const readEcg = async (start, end) => {
-//   const { records } = await readRecords('Electrocardiogram', {
-//     timeRangeFilter: { operator: 'between', startTime: start, endTime: end },
-//   });
-//   return records;
-// };

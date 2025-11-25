@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, ActivityIndicator, StyleSheet, Button } from 'react-native';
 import { startAutoUpdater } from '../utils/Updater';
-// import { setupHealthConnect } from '../services/healthService';
 import { useHealthConnect } from '../hooks/useHealthConnect';
 
 export default function DashboardScreen() {
@@ -18,7 +17,7 @@ export default function DashboardScreen() {
   useEffect(() => {
     let stopUpdater;
 
-    const init = async () => {
+    const init =  () => {
       try {
         stopUpdater = startAutoUpdater((newData) => {
           setData(newData);
