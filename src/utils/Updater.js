@@ -27,7 +27,7 @@ export const startAutoUpdater = (onUpdate, interval = 60 * 60 * 1000) => {
         hrv: hrv?.[0],
       });
 
-      onUpdate({ heartRate: hr, bloodPressure: bp, oxygen: spo2 });
+      onUpdate({ heartRate: hr, bloodPressure: bp, oxygen: spo2, hrv, });
     } catch (err) {
       console.error('❌ Ошибка автообновления:', err);
     }

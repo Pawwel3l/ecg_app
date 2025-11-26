@@ -66,12 +66,12 @@ export default function DashboardScreen() {
   if (error || hookError)
     return <Text style={styles.error}>Ошибка: {error || hookError}</Text>;
 
-  const latestHeartRate = (data.heartRate?.[0]?.samples?.[0]?.beatsPerMinute) ?? 'Нет данных';
-  const latestBP = data.bloodPressure?.[0]?.samples?.[0];
-  const systolic = latestBP?.systolic?.value ?? '—';
-  const diastolic = latestBP?.diastolic?.value ?? '—';
-  const latestOxygen = data.oxygen?.[0]?.samples?.[0]?.percentage ?? 'Нет данных';
-  const latestHrv = data.hrv?.[0]?.samples?.[0]?.rmssd ?? 'Нет данных'
+  const latestHeartRate = data.heartRate?.[0]?.bpm ?? 'Нет данных';
+  const latestBP = data.bloodPressure?.[0];
+  const systolic = latestBP?.systolic?.inMillimetersOfMercury ?? '—';
+  const diastolic = latestBP?.diastolic?.inMillimetersOfMercury ?? '—';
+  const latestOxygen = data.oxygen?.[0]?.percentage ?? 'Нет данных';
+  const latestHrv = data.hrv?.[0]?.rmssd ?? 'Нет данных';
 
   return (
     <View style={styles.container}>
@@ -79,7 +79,7 @@ export default function DashboardScreen() {
       <Text style={styles.text}>💓 Пульс: {latestHeartRate} bpm</Text>
       <Text style={styles.text}>💉 Давление: {systolic}/{diastolic} мм рт.ст.</Text>
       <Text style={styles.text}>🫁 Кислород: {latestOxygen}%</Text>
-      <Text style ={styles.text}>ВСР (rMSSD): {latestHrv} записей</Text>
+      <Text style={styles.text}>ВСР (rMSSD): {latestHrv} мс</Text>
 
       {lastUpdated && (
         <Text style={styles.subtext}>

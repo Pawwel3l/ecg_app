@@ -1,54 +1,32 @@
 import { readRecords } from 'react-native-health-connect';
 
 export const readHeartRate = async (start, end) => {
-  const { records } = await readRecords('HeartRate', {
-    timeRangeFilter: { operator: 'between', startTime: start, endTime: end },
-  });
-  return records;
+  const result = await readRecords('HeartRate', { timeRangeFilter: { operator: 'between', startTime: start, endTime: end } });
+  return result.records.map(r => ({
+  bpm: r.samples?.[0]?.beatsPerMinute ?? null,
+  time: r.startTime ?? null,
+}));
 };
 
-// Давление
 export const readBloodPressure = async (start, end) => {
-  const result = await readRecords('BloodPressure', {
-    timeRangeFilter: {
-      operator: 'between',
-      startTime: start,
-      endTime: end,
-    },
-  });
-
-  return result.records.map(r => ({
-    systolic: r.systolic,
-    diastolic: r.diastolic,
-    time: r.startTime,
-  }));
+  const result = await readRecords('BloodPressure', { timeRangeFilter: { operator: 'between', startTime: start, endTime: end } });
+  return result.records.map(r => ({ systolic: r.systolic ?? null, diastolic: r.diastolic ?? null, time: r.startTime ?? null }));
 };
 
-// Уровень кислорода
 export const readOxygenSaturation = async (start, end) => {
-  const result = await readRecords('OxygenSaturation', {
-    timeRangeFilter: {
-      operator: 'between',
-      startTime: start,
-      endTime: end,
-    },
-  });
-
-  return result.records.map(r => ({
-    percentage: r.percentage,
-    time: r.startTime,
-  }));
+  const result = await readRecords('OxygenSaturation', { timeRangeFilter: { operator: 'between', startTime: start, endTime: end } });
+  return result.records.map(r => ({ percentage: r.percentage ?? null, time: r.startTime ?? null }));
 };
 
 export const readHeartRateVariability = async (start, end) => {
-  const result = await readRecords('HeartRateVariabilityRmssd', {
+  const { records } = await readRecords('HeartRateVariabilityRmssd', {
     timeRangeFilter: { operator: 'between', startTime: start, endTime: end },
   });
-
-  return result.records.map(r => ({
-    // Безопасный доступ: если rmssd — объект с value, берём value, иначе само значение
-    rmssd: r.rmssd?.value ?? r.rmssd ?? null,
-    time: r.startTime ?? null,
+  return records.map(r => ({
+    rmssd: r.heartRateVariabilityMillis ?? null,
+    time: r.time ?? null,
   }));
 };
+
+
 
