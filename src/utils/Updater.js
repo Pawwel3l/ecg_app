@@ -1,4 +1,4 @@
-import { setupHealthConnect, readHeartRate, readBloodPressure, readOxygenSaturation } from '../services/healthService';
+import { readHeartRate, readBloodPressure, readOxygenSaturation, readHeartRateVariability } from '../services/healthService';
 
 /**
  * Автоматически обновляет данные Health Connect каждые N миллисекунд.
@@ -13,16 +13,18 @@ export const startAutoUpdater = (onUpdate, interval = 60 * 60 * 1000) => {
       const end = new Date().toISOString();
       const start = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
 
-      const [hr, bp, spo2] = await Promise.all([
+      const [hr, bp, spo2, hrv] = await Promise.all([
         readHeartRate(start, end),
         readBloodPressure(start, end),
         readOxygenSaturation(start, end),
+        readHeartRateVariability(start, end)
       ]);
 
       console.log('♻️ Данные обновлены:', {
         heartRate: hr?.[0],
         bloodPressure: bp?.[0],
         oxygen: spo2?.[0],
+        hrv: hrv?.[0],
       });
 
       onUpdate({ heartRate: hr, bloodPressure: bp, oxygen: spo2 });

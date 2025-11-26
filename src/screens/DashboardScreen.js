@@ -4,11 +4,12 @@ import { startAutoUpdater } from '../utils/Updater';
 import { useHealthConnect } from '../hooks/hcDataManager';
 
 export default function DashboardScreen() {
-  const { heartRate, bloodPressure, oxygen, loading: hookLoading, error: hookError } = useHealthConnect();
+  const { heartRate, bloodPressure, oxygen, hrv, loading: hookLoading, error: hookError } = useHealthConnect();
   const [data, setData] = useState({
     heartRate: [],
     bloodPressure: [],
     oxygen: [],
+    hrv: [],
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -49,6 +50,7 @@ export default function DashboardScreen() {
         heartRate,
         bloodPressure,
         oxygen,
+        hrv,
       });
       setLastUpdated(new Date());
       console.log('🔄 Ручное обновление данных');
@@ -69,6 +71,7 @@ export default function DashboardScreen() {
   const systolic = latestBP?.systolic?.value ?? '—';
   const diastolic = latestBP?.diastolic?.value ?? '—';
   const latestOxygen = data.oxygen?.[0]?.samples?.[0]?.percentage ?? 'Нет данных';
+  const latestHrv = data.hrv?.[0]?.samples?.[0]?.rmssd ?? 'Нет данных'
 
   return (
     <View style={styles.container}>
@@ -76,6 +79,7 @@ export default function DashboardScreen() {
       <Text style={styles.text}>💓 Пульс: {latestHeartRate} bpm</Text>
       <Text style={styles.text}>💉 Давление: {systolic}/{diastolic} мм рт.ст.</Text>
       <Text style={styles.text}>🫁 Кислород: {latestOxygen}%</Text>
+      <Text style ={styles.text}>ВСР (rMSSD): {latestHrv} записей</Text>
 
       {lastUpdated && (
         <Text style={styles.subtext}>

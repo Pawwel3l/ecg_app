@@ -40,10 +40,15 @@ export const readOxygenSaturation = async (start, end) => {
   }));
 };
 
+export const readHeartRateVariability = async (start, end) => {
+  const result = await readRecords('HeartRateVariabilityRmssd', {
+    timeRangeFilter: { operator: 'between', startTime: start, endTime: end },
+  });
 
-// export const readEcg = async (start, end) => {
-//   const { records } = await readRecords('Electrocardiogram', {
-//     timeRangeFilter: { operator: 'between', startTime: start, endTime: end },
-//   });
-//   return records;
-// };
+  return result.records.map(r => ({
+    // Безопасный доступ: если rmssd — объект с value, берём value, иначе само значение
+    rmssd: r.rmssd?.value ?? r.rmssd ?? null,
+    time: r.startTime ?? null,
+  }));
+};
+

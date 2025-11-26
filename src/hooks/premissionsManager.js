@@ -4,6 +4,7 @@ export const setupHealthConnect = async () => {
   await initialize();
   const permissions = [
     { accessType: 'read', recordType: 'HeartRate' },
+    { accessType: 'read', recordType: 'HeartRateVariabilityRmssd' },
     { accessType: 'read', recordType: 'OxygenSaturation' },
     { accessType: 'read', recordType: 'BloodPressure' },
     // { accessType: 'read', recordType: 'Electrocardiogram' },
