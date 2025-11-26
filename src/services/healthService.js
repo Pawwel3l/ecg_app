@@ -20,16 +20,21 @@ export const readBloodPressure = async (start, end) => {
   };
 
   return records.map(r => ({
-    systolic: getBPValue(r.systolic),
-    diastolic: getBPValue(r.diastolic),
-    time: r.startTime ?? null,
-  }));
+  systolic: r.systolic?.inMillimetersOfMercury ?? null,
+  diastolic: r.diastolic?.inMillimetersOfMercury ?? null,
+  time: r.time ?? r.startTime ?? r.endTime ?? null,
+}));
+
 };
 
 
 export const readOxygenSaturation = async (start, end) => {
   const result = await readRecords('OxygenSaturation', { timeRangeFilter: { operator: 'between', startTime: start, endTime: end } });
-  return result.records.map(r => ({ percentage: r.percentage ?? null, time: r.startTime ?? null }));
+  return result.records.map(r => ({
+  percentage: r.percentage ?? null,
+  time: r.time ?? r.startTime ?? r.endTime ?? null,
+}));
+
 };
 
 export const readHeartRateVariability = async (start, end) => {
@@ -40,6 +45,7 @@ export const readHeartRateVariability = async (start, end) => {
     rmssd: r.heartRateVariabilityMillis ?? null,
     time: r.time ?? null,
   }));
+
 };
 
 

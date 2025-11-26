@@ -87,7 +87,7 @@ const last10Hrv = data.hrv
   .slice(0, 10) ?? [];
 
   return (
-    <ScrollView style={{ flex: 1, paddingHorizontal: 10 }}>
+    <ScrollView style={{ flex: 1, paddingHorizontal: 10 }}contentContainerStyle={{ paddingBottom: 40 }}>
     <View style={{ marginTop: 20, width: '90%' }}>
     <Text style={styles.title}>📊 Последние 10 записей</Text>
 
@@ -152,6 +152,13 @@ const last10Hrv = data.hrv
       </View>
     ))}
   </View>
+  {lastUpdated && (
+  <Text style={styles.subtext}>
+    ⏱ Обновлено: {lastUpdated.toLocaleTimeString()}
+  </Text>
+)}
+
+<Button title="🔄 Обновить вручную" onPress={handleManualUpdate}style={{ marginTop: 30 }} />
 </View>
 </ScrollView>
   );
