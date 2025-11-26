@@ -9,9 +9,23 @@ export const readHeartRate = async (start, end) => {
 };
 
 export const readBloodPressure = async (start, end) => {
-  const result = await readRecords('BloodPressure', { timeRangeFilter: { operator: 'between', startTime: start, endTime: end } });
-  return result.records.map(r => ({ systolic: r.systolic ?? null, diastolic: r.diastolic ?? null, time: r.startTime ?? null }));
+  const { records } = await readRecords('BloodPressure', { timeRangeFilter: { operator: 'between', startTime: start, endTime: end } });
+
+  const getBPValue = (bp) => {
+    if (!bp) return null;
+    if (typeof bp === 'number') return bp;
+    if (bp.inMillimetersOfMercury != null) return bp.inMillimetersOfMercury;
+    if (bp.value != null) return bp.value;
+    return null;
+  };
+
+  return records.map(r => ({
+    systolic: getBPValue(r.systolic),
+    diastolic: getBPValue(r.diastolic),
+    time: r.startTime ?? null,
+  }));
 };
+
 
 export const readOxygenSaturation = async (start, end) => {
   const result = await readRecords('OxygenSaturation', { timeRangeFilter: { operator: 'between', startTime: start, endTime: end } });
